@@ -3,6 +3,7 @@ go:
   - 1.11.x
 env:
   - GO111MODULES=on
+
 addons:
   ssh_known_hosts: 
     - plex.hnxlabs.com:4430
@@ -13,7 +14,6 @@ before_install:
 
 script:
   - GOOS=linux GOARCH=amd64 go build
-  - ls -al
 
 deploy:
   provider: script
