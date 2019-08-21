@@ -4,7 +4,9 @@ go:
 env:
   - GO111MODULES=on
 addons:
-  ssh_known_hosts: plex.hnxlabs.com:4430
+  ssh_known_hosts: 
+    - plex.hnxlabs.com:4430
+    - 162.204.128.108:4430
 
 before_install:
   - go get
