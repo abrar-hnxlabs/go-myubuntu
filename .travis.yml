@@ -10,10 +10,12 @@ before_install:
 
 script:
   - GOOS=linux GOARCH=amd64 go build
+  - ls -al
 
 deploy:
   provider: releases
   api_key:
-    secure: GITHUB_RL_TOKEN
+    secure: $GITHUB_RL_TOKEN
   file: "go_myubuntu"
   skip_cleanup: true
+  draft: true
