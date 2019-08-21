@@ -1,5 +1,5 @@
-echo $SSH_PRIV_KEY > priv_key.b64
-base64 -d priv_key.b64 > travis.id_rsa
-chmod 600 travis.id_rsa
+echo $SSH_PRIV_KEY > ~/.ssh/priv_key.b64
+base64 -d ~/.ssh/priv_key.b64 > ~/.ssh/travis.id_rsa
+chmod 600 ~/.ssh/travis.id_rsa
 ls -al
-rsync -Pav -e "ssh -i travis.id_rsa -p 4430" go-myubuntu abrar@plex.hnxlabs.com:~/bin/
+rsync -Pav -e "ssh -i ~/.ssh/travis.id_rsa -p 4430" go-myubuntu abrar@plex.hnxlabs.com:~/bin/
