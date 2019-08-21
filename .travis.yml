@@ -12,14 +12,8 @@ script:
   - GOOS=linux GOARCH=amd64 go build
   - ls -al
 
-before_deploy:
-    - echo $SSH_PRIV_KEY > priv_key.b64
-    - base64 -d priv_key.b64 > priv.key
-    - echo priv.key
-    - ls -al
-
 deploy:
   provider: script
-  script: scp -i priv.key -P 4430 go-myubuntu abrar@plex.hnxlabs.com:~/bin/
+  script: bash deploy.sh
   on:
     branch: master
