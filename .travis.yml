@@ -16,6 +16,6 @@ deploy:
   provider: releases
   api_key:
     secure: $GITHUB_RL_TOKEN
-  file: "go_myubuntu"
+  file: "go-myubuntu"
   skip_cleanup: true
   draft: true
