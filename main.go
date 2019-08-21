@@ -38,10 +38,18 @@ func main() {
     return 0
   })
 
+  docker := cli.NewCommand("docker", "update plex restart docker").
+    WithAction(func(args []string, options map[string]string ) int {
+      UpdateAndRestartDocker()
+      return 0
+    })
+
+
   app := cli.New("myubuntu tool").
     WithCommand(dns).
     WithCommand(encrypt).
-    WithCommand(decrypt)
+    WithCommand(decrypt).
+    WithCommand(docker)
 
   os.Exit(app.Run(os.Args, os.Stdout))
 }
