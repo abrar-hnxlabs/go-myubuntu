@@ -18,4 +18,4 @@ deploy:
     secure: $GITHUB_RL_TOKEN
   file: "go-myubuntu"
   skip_cleanup: true
-  draft: true
+  overwrite: true
