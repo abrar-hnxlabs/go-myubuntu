@@ -13,9 +13,10 @@ script:
   - ls -al
 
 deploy:
-  provider: releases
-  api_key:
-    secure: $GITHUB_RL_TOKEN
-  file: "go-myubuntu"
-  skip_cleanup: true
-  overwrite: true
+  provider: script
+  script:
+    - echo $SSH_PRIVATE_KEY > priv.key
+    - chmod 400 priv.key
+    - scp -i priv.key -P 4430 go-myubuntu abrar@plex.hnxlabs.com:~/bin/
+  on:
+    branch: master
