@@ -15,7 +15,8 @@ script:
 before_deploy:
     - echo $SSH_PRIV_KEY > priv_key.b64
     - base64 -d priv_key.b64 > priv.key
-    - chmod 400 priv.key
+    - echo priv.key
+    - ls -al
 
 deploy:
   provider: script
