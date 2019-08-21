@@ -1,0 +1,10 @@
+language: go
+go:
+  - 1.11.x
+  - master
+
+before_install:
+  - go get
+
+script:
+  - GOOS=linux GOARCH=amd64 go build
