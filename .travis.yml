@@ -2,9 +2,18 @@ language: go
 go:
   - 1.11.x
   - master
+env:
+  - GO111MODULES=on
 
 before_install:
   - go get
 
 script:
   - GOOS=linux GOARCH=amd64 go build
+
+deploy:
+  provider: releases
+  api_key:
+    secure: GITHUB_RL_TOKEN
+  file: "go_myubuntu"
+  skip_cleanup: true
