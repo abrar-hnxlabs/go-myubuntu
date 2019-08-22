@@ -8,6 +8,8 @@ import (
 	"io/ioutil"
     "io"
     "path/filepath"
+    "encoding/base64"
+    "strings"
 )
 
 func EncryptFile(filename string, password string) int {
@@ -37,22 +39,24 @@ func EncryptFile(filename string, password string) int {
         log.Fatalln(err)
     }
 
-    // here we encrypt our text using the Seal function
-    // Seal encrypts and authenticates plaintext, authenticates the
-    // additional data and appends the result to dst, returning the updated
-    // slice. The nonce must be NonceSize() bytes long and unique for all
-    // time, for a given key.
     encryptedContent := gcm.Seal(nonce, nonce, content, nil)
+    base64 := base64.StdEncoding.EncodeToString(encryptedContent)
     filebase := filepath.Base(filename)
-    ioutil.WriteFile(filebase+".enc", encryptedContent, 0644)
+    ioutil.WriteFile(filebase+".enc", []byte(base64), 0644)
 	return 0
 }
 
-func Decryptfile(filename string, outputfile string, password string) int {
-    content, err := ioutil.ReadFile(filename)
+func Decryptfile(filename string, password string) int {
+    if strings.Contains(filename, ".enc") == false {
+        log.Fatalln("we need an encrypted file with .enc extension")
+        return -1
+    }
+    
+    base64Content, err := ioutil.ReadFile(filename)
 	if err != nil {
 		log.Fatalln("error reading file")
-	}
+    }
+    content, err := base64.StdEncoding.DecodeString(string(base64Content))
     c, err := aes.NewCipher([]byte(password))
     if err != nil {
         log.Fatalln(err)
@@ -73,6 +77,7 @@ func Decryptfile(filename string, outputfile string, password string) int {
     if err != nil {
         log.Fatalln(err)
     }
+    outputfile := strings.Replace(filename, ".enc", "",1)
     ioutil.WriteFile(outputfile, []byte(plaintext), 0644)
     return 0
 }
