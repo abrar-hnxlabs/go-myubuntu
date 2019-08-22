@@ -8,7 +8,7 @@ import (
 )
 
 func run(args string) {
-	dockerFile := path.Join("~", "confs-docker", "docker-compose.yml")
+	dockerFile := path.Join("/","home", "abrar","confs-docker", "docker-compose.yml")
 	log.Println(dockerFile)
 	cmd := exec.Command("/usr/bin/docker-compose","-f",dockerFile, args)
 	output, err := cmd.Output()
