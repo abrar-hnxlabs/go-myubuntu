@@ -20,7 +20,7 @@ Encode the private key to base64
 ```
 base64 travis.id_rsa > travis.id_rsa.b64
 ```
-Copy the env variable to CI system.
+Copy the file to env variable in CI system.
 Decode the base64 env variable to create the private key file again.
 ```
 echo $PRIV_KEY > ~/.ssh/travis.id_rsa.b64

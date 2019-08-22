@@ -4,44 +4,21 @@ import (
 	"log"
 	"os/exec"
 	"fmt"
-	"bytes"
+	"path"
 )
 
-func down() {
-	cmd := exec.Command("/usr/bin/docker-compose","-f","/home/abrar/confs-docker/docker-compose.yml", "down")
-	var out bytes.Buffer
-	cmd.Stdout = &out
-	err := cmd.Run()
+func run(args string) {
+	dockerFile := path.Join("~", "confs-docker", "docker-compose.yml")
+	cmd := exec.Command("/usr/bin/docker-compose","-f",dockerFile, args)
+	output, err := cmd.Output()
 	if err != nil {
 		log.Fatalln(err)
 	}
-	fmt.Printf("%s\n", out.String())
-}
-
-func updatePlex(){
-	cmd := exec.Command("/usr/bin/docker-compose","-f","/home/abrar/confs-docker/docker-compose.yml", "pull", "plex")
-	var out bytes.Buffer
-	cmd.Stdout = &out
-	err := cmd.Run()
-	if err != nil {
-		log.Fatalln(err)
-	}
-	fmt.Printf("%s\n", out.String())
-}
-
-func up(){
-	cmd := exec.Command("/usr/bin/docker-compose","-f","/home/abrar/confs-docker/docker-compose.yml", "up", "-d")
-	var out bytes.Buffer
-	cmd.Stdout = &out
-	err := cmd.Run()
-	if err != nil {
-		log.Fatalln(err)
-	}
-	fmt.Printf("%s\n", out.String())
+	fmt.Printf("%s\n", output)
 }
 
 func UpdateAndRestartDocker() {
-	updatePlex()
-	down()
-	up()	
+	run("pull plex")
+	run("down")
+	run("up -d")
 }
