@@ -19,7 +19,7 @@ func run(args string) {
 }
 
 func UpdateAndRestartDocker() {
-	run("pull plex")
+	// run("pull plex")
 	run("down")
-	run("up -d")
+	// run("up -d")
 }
