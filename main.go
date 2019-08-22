@@ -45,7 +45,7 @@ func main() {
     })
 
 
-  app := cli.New("myubuntu tool").
+  app := cli.New("Version: 1.0.0").
     WithCommand(dns).
     WithCommand(encrypt).
     WithCommand(decrypt).
