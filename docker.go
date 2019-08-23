@@ -8,7 +8,7 @@ import (
 )
 
 func run(args ...string) {
-	dockerFile := path.Join("/","home", "abrar","confs-docker", "docker-compose.yml")
+	dockerFile := path.Join("/","home", "abrar","docker-hnx", "docker-compose.yml")
 	options := []string{ "-f", dockerFile}
 	for i :=0 ; i <len(args); i++ {
 		options = append(options, args[i])
