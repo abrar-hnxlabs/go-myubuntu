@@ -5,6 +5,7 @@ import (
 	"os/exec"
 	"fmt"
 	"path"
+	"strings"
 )
 
 func run(args ...string) {
@@ -25,4 +26,10 @@ func UpdateAndRestartDocker() {
 	run("pull","plex")
 	run("down")
 	run("up","-d")
+}
+
+func RunDockerInstance(commmand string){
+	commmands := strings.Split(commmand, " ")
+	log.Printf("%s\n", commmand)
+	run(commmands...)
 }

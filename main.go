@@ -42,12 +42,20 @@ func main() {
       return 0
     })
 
+    dc := cli.NewCommand("dc", "proxy docker-compose commands").
+    WithOption(cli.NewOption("c", "docker command to run").WithType(cli.TypeString)).
+    WithAction(func(args []string, options map[string]string ) int {
+      RunDockerInstance(options["c"])
+      return 0
+    })
 
-  app := cli.New("Version: 1.0.7").
+
+  app := cli.New("Version: 1.0.8").
     WithCommand(dns).
     WithCommand(encrypt).
     WithCommand(decrypt).
-    WithCommand(docker)
+    WithCommand(docker).
+    WithCommand(dc)
 
   os.Exit(app.Run(os.Args, os.Stdout))
 }
