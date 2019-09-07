@@ -50,7 +50,7 @@ func main() {
     })
 
 
-  app := cli.New("Version: 1.0.8").
+  app := cli.New("Version: 1.0.9").
     WithCommand(dns).
     WithCommand(encrypt).
     WithCommand(decrypt).
