@@ -42,20 +42,29 @@ func main() {
       return 0
     })
 
-    dc := cli.NewCommand("dc", "proxy docker-compose commands").
-    WithOption(cli.NewOption("c", "docker command to run").WithType(cli.TypeString)).
-    WithAction(func(args []string, options map[string]string ) int {
-      RunDockerInstance(options["c"])
-      return 0
-    })
+  dc := cli.NewCommand("dc", "proxy docker-compose commands").
+  WithOption(cli.NewOption("c", "docker command to run").WithType(cli.TypeString)).
+  WithAction(func(args []string, options map[string]string ) int {
+    RunDockerInstance(options["c"])
+    return 0
+  })
 
 
-  app := cli.New("Version: 1.0.9").
+  slugs := cli.NewCommand("sluggify", "sluggify the filenames.").
+  WithOption(cli.NewOption("r", "root folder to start scan from.").WithType(cli.TypeString)).
+  WithAction(func(args []string, options map[string]string ) int {
+    SlugifyFiles(options["r"])
+    return 0
+  })
+
+
+  app := cli.New("Version: 1.1.0").
     WithCommand(dns).
     WithCommand(encrypt).
     WithCommand(decrypt).
     WithCommand(docker).
-    WithCommand(dc)
+    WithCommand(dc).
+    WithCommand(slugs)
 
   os.Exit(app.Run(os.Args, os.Stdout))
 }
