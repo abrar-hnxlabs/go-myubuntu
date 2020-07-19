@@ -28,11 +28,13 @@ func SlugifyFiles(root string) {
 			for _, v := range contents {
 				oldname := path.Join(current, v.Name())
 				slug := string(replaceRe.ReplaceAll([]byte(v.Name()), []byte("_")))
+				slug = removeConsecutive(slug)
 				newname := path.Join(current, slug)
 				if !v.IsDir() {
 					extension := path.Ext(v.Name())
 					basename := strings.Replace(v.Name(), extension, "", 1)
 					slug = string(replaceRe.ReplaceAll([]byte(basename), []byte("_")))
+					slug = removeConsecutive(slug)
 					newname = path.Join(current, slug + extension)
 				} 
 				
@@ -47,4 +49,21 @@ func SlugifyFiles(root string) {
 			}
 		}
 	}
+}
+
+func removeConsecutive(input string) string {
+	result := ""
+	seen := false
+	for _, v := range input {
+		if !seen && string(v) != "_" {
+			result += string(v)
+		} else if !seen && string(v) == "_" {
+			seen = true
+			result += "_"
+		} else if seen && string(v) != "_" {
+			seen = false
+			result += string(v)
+		}
+	}
+	return result
 }
