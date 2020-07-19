@@ -15,7 +15,7 @@ func run(args ...string) {
 		options = append(options, v)
 	}
 	cmd := exec.Command("/usr/bin/docker-compose", options...)
-	output, err := cmd.Output()
+	output, err := cmd.CombinedOutput()
 	if err != nil {
 		log.Fatalln(err)
 	}
