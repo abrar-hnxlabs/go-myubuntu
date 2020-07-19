@@ -1,4 +1,4 @@
-package main
+package commands
 
 import (
 	"log"
@@ -11,8 +11,8 @@ import (
 func run(args ...string) {
 	dockerFile := path.Join("/","mnt", "external","projects","docker", "docker-compose.yml")
 	options := []string{ "-f", dockerFile}
-	for i :=0 ; i <len(args); i++ {
-		options = append(options, args[i])
+	for _,v := range args {
+		options = append(options, v)
 	}
 	cmd := exec.Command("/usr/bin/docker-compose", options...)
 	output, err := cmd.Output()

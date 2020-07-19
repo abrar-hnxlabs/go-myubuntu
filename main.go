@@ -4,13 +4,14 @@ import (
   "os"
   "log"
   "strings"
+  "github.com/abrar-hnxlabs/go-hnx/commands"
 )
 
 func main() {
   log.Println("Starting App")
   dns := cli.NewCommand("dns", "update google domains").
     WithAction(func(args []string, options map[string]string ) int {
-      result, _ := UpdateDns()
+      result, _ := commands.UpdateDns()
       return result
     })
 
@@ -21,7 +22,7 @@ func main() {
       filename := options["in"]
       password := options["p"]
       password32chars := password + strings.Repeat("X",32-len(password))
-      EncryptFile(filename, password32chars)
+      commands.EncryptFile(filename, password32chars)
       return 0
     })
 
@@ -32,20 +33,20 @@ func main() {
     filename := options["in"]
     password := options["p"]
     password32chars := password + strings.Repeat("X",32-len(password))
-    Decryptfile(filename,password32chars)
+    commands.Decryptfile(filename,password32chars)
     return 0
   })
 
   docker := cli.NewCommand("docker", "update plex restart docker").
     WithAction(func(args []string, options map[string]string ) int {
-      UpdateAndRestartDocker()
+      commands.UpdateAndRestartDocker()
       return 0
     })
 
   dc := cli.NewCommand("dc", "proxy docker-compose commands").
   WithOption(cli.NewOption("c", "docker command to run").WithType(cli.TypeString)).
   WithAction(func(args []string, options map[string]string ) int {
-    RunDockerInstance(options["c"])
+    commands.RunDockerInstance(options["c"])
     return 0
   })
 
@@ -53,7 +54,7 @@ func main() {
   slugs := cli.NewCommand("sluggify", "sluggify the filenames.").
   WithOption(cli.NewOption("r", "root folder to start scan from.").WithType(cli.TypeString)).
   WithAction(func(args []string, options map[string]string ) int {
-    SlugifyFiles(options["r"])
+    commands.SlugifyFiles(options["r"])
     return 0
   })
 
