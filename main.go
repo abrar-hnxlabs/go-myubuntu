@@ -58,6 +58,12 @@ func main() {
     return 0
   })
 
+  duper := cli.NewCommand("duper", "find files for duper.").
+  WithOption(cli.NewOption("r", "root folder to scan dupes").WithType(cli.TypeString)).
+  WithAction(func(args []string, options map[string]string) int {
+    commands.Duper(options["r"])
+    return 0
+  })
 
   app := cli.New("Version: 1.1.0").
     WithCommand(dns).
@@ -65,7 +71,8 @@ func main() {
     WithCommand(decrypt).
     WithCommand(docker).
     WithCommand(dc).
-    WithCommand(slugs)
+    WithCommand(slugs).
+    WithCommand(duper)
 
   os.Exit(app.Run(os.Args, os.Stdout))
 }
