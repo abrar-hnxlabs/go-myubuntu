@@ -65,6 +65,12 @@ func main() {
     return 0
   })
 
+  getip := cli.NewCommand("ip", "Get outside world ip.").
+  WithAction(func(args []string, options map[string]string) int {
+    commands.GetIp()
+    return 0
+  })
+
   app := cli.New("Version: 1.1.0").
     WithCommand(dns).
     WithCommand(encrypt).
@@ -72,7 +78,8 @@ func main() {
     WithCommand(docker).
     WithCommand(dc).
     WithCommand(slugs).
-    WithCommand(duper)
+    WithCommand(duper).
+    WithCommand(getip)
 
   os.Exit(app.Run(os.Args, os.Stdout))
 }
