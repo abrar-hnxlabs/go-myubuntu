@@ -6,11 +6,10 @@ import(
 	"strings"
 )
 
-const ipQueryUrl string = "http://ipinfo.io/ip"	
 
 func GetIp() (int, error) {
 	
-	resp, err := grequests.Get(ipQueryUrl, nil)
+	resp, err := grequests.Get("http://ipinfo.io/ip", nil)
 	
 	if err != nil {
 		log.Fatalln("Unable to make request: ", err)
@@ -18,6 +17,7 @@ func GetIp() (int, error) {
 	}
 
 	srcIp := strings.Replace(resp.String(), "\n", "", -1)
+	log.Printf("curl ipinfo.io/ip \n")
 	log.Printf("Outside IP: %s \n", srcIp)
 	return 0, nil
 }
