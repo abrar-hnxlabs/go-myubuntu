@@ -24,7 +24,7 @@ func Plexurl() {
 	releases := apiResp["computer"].(map[string]interface{})["Linux"].(map[string]interface{})["releases"].([]interface{})
 	for _, i := range releases {
 		furl := i.(map[string]interface{})["url"].(string)
-		matched, _ := regexp.MatchString(`^https:.*_arm64.deb$`, furl)
+		matched, _ := regexp.MatchString(`^https:.*_amd64.deb$`, furl)
 		if matched == true {
 			fmt.Println(furl)
 			return
