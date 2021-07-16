@@ -5,7 +5,6 @@ import (
 	xxhash "github.com/cespare/xxhash/v2"
 	"github.com/abrar-hnxlabs/go-hnx/commands/core"
 	"io/ioutil"
-	// "regexp"
 	"strings"
 )
 
@@ -36,17 +35,13 @@ func Duper(srcDir string, extension string) {
 		}
 		current += 1
 	}
-	
+	fmt.Println("Printing Dupes...")
 	for _, val := range(dupeMap) {
 		if len(val) > 1 {
-			fmt.Printf("Found binary dupes. %v \n", val)
+			for _, f := range (val) {
+				fmt.Printf("%s,", f)
+			}
+			fmt.Printf("\n")
 		}
 	}
 }
-
-/*
-func allowedToDelete(filename string) bool {
-	pattern := regexp.MustCompile("^photos/[0-9]{4}_[0-9]{2}/")
-	return pattern.MatchString(filename)
-}
-*/
