@@ -5,7 +5,7 @@ import (
 	xxhash "github.com/cespare/xxhash/v2"
 	"github.com/abrar-hnxlabs/go-hnx/commands/core"
 	"io/ioutil"
-	"regexp"
+	// "regexp"
 	"strings"
 )
 
