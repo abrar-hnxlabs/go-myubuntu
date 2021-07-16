@@ -6,15 +6,22 @@ import (
 	"github.com/abrar-hnxlabs/go-hnx/commands/core"
 	"io/ioutil"
 	"regexp"
+	"strings"
 )
 
-func Duper(srcDir string) {
+func Duper(srcDir string, extension string) {
 	fmt.Println("Duper.", srcDir)
 	fileList := core.RecursiveListFiles(srcDir)
 	total := len(fileList)
 	current := 1
 	dupeMap := make(map[uint64][]string)
 	for _, file := range(fileList) {
+		fileLower := strings.ToLower(file) 
+		// skip file if extension filter present , and does not match the file extenstion
+		if len(extension) > 0 && !strings.HasSuffix(fileLower, extension) { 
+			current +=1
+			continue
+		}
 		fileBytes, err := ioutil.ReadFile(file)
 		if err != nil {
 			fmt.Printf("error while reading file: %s \n", file)
@@ -30,36 +37,16 @@ func Duper(srcDir string) {
 		current += 1
 	}
 	
-	deleteList := make([]string, 0)
 	for _, val := range(dupeMap) {
 		if len(val) > 1 {
-			// fmt.Printf("Found binary dupes. %v \n", val)
-			tempList := make([]string, 0)
-			for _, file := range(val) {
-				if allowedToDelete(file) {
-					tempList = append(tempList, file)
-				}
-			}
-			
-			// if temp list is same as the dupe files
-			// this means all file can be deled so remove one file and then add to master delete list
-			if len(tempList) == len(val) {
-				tempList = tempList[1:]
-			}
-
-			for _, deletes := range(tempList) {
-				deleteList = append(deleteList, deletes)
-			}
+			fmt.Printf("Found binary dupes. %v \n", val)
 		}
-	}
-
-	for _, f := range(deleteList) {
-		fmt.Println(f)
 	}
 }
 
-
+/*
 func allowedToDelete(filename string) bool {
 	pattern := regexp.MustCompile("^photos/[0-9]{4}_[0-9]{2}/")
 	return pattern.MatchString(filename)
 }
+*/

@@ -59,8 +59,9 @@ func main() {
 
 	duper := cli.NewCommand("duper", "find files for duper.").
 		WithOption(cli.NewOption("r", "root folder to scan dupes").WithType(cli.TypeString)).
+		WithOption(cli.NewOption("e", "file extension to filter").WithType(cli.TypeString)).
 		WithAction(func(args []string, options map[string]string) int {
-			commands.Duper(options["r"])
+			commands.Duper(options["r"], options["e"])
 			return 0
 		})
 
