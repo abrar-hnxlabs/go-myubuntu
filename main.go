@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 	"strings"
-
+	"strconv"
 	"github.com/abrar-hnxlabs/go-hnx/commands"
 	"github.com/teris-io/cli"
 )
@@ -76,6 +76,19 @@ func main() {
 			commands.Plexurl()
 			return 0
 		})
+	
+	renderCanvas := cli.NewCommand("passport", "Render passport size photos.").
+		WithOption(cli.NewOption("ppi", "pixel per inch for image, Default: 150").WithType(cli.TypeInt)).
+		WithOption(cli.NewOption("i", "source image, has to be 1x1 aspect ratio").WithType(cli.TypeString)).
+		WithAction(func(args []string, options map[string]string) int {
+		ppi := 150
+		if len(options["ppi"]) > 0 {
+			ppi, _ = strconv.Atoi(options["ppi"])
+		}
+		inputfile := options["i"]
+		commands.RenderCanvas(inputfile, float64(ppi))
+		return 0
+	})
 
 	app := cli.New("Version: 1.1.0").
 		WithCommand(dns).
@@ -86,7 +99,8 @@ func main() {
 		WithCommand(slugs).
 		WithCommand(duper).
 		WithCommand(getip).
-		WithCommand(getplexurl)
+		WithCommand(getplexurl).
+		WithCommand(renderCanvas)
 
 	os.Exit(app.Run(os.Args, os.Stdout))
 }
