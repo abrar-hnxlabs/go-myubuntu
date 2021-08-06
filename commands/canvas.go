@@ -5,6 +5,7 @@ import (
 	"image"
 	"image/jpeg"
 	"os"
+	"errors"
 	"path/filepath"
 	"github.com/tdewolff/canvas"
 	"github.com/tdewolff/canvas/renderers"
@@ -23,31 +24,25 @@ func RenderCanvas(imgPath string, ppi float64) {
 	if imgReader, err := os.Open(imgPath); err == nil {
 		defer imgReader.Close()
 		if stat ,_ := imgReader.Stat(); stat.IsDir() {
-			fmt.Printf("file not correct format, %s\n", imgPath)
-			return
+			handleErr(errors.New(fmt.Sprintf("Fileformat incorrect: %s", imgPath)))
 		}
 		img, err = jpeg.Decode(imgReader)
 		if err != nil {
-			fmt.Printf("image is not JPEG formatted.\n")
-			return
+			handleErr(err)
 		}
-	} else if err != nil {
-		fmt.Printf("error opening file : %s \nerror: %v \n", imgPath, err)
-		return
+	} else {
+		handleErr(err)
 	}
 	
 	if imgReader, err := os.Open(imgPath); err == nil {
 		defer imgReader.Close()
 		imgConfig, err = jpeg.DecodeConfig(imgReader)
-		if err != nil {
-			fmt.Println("Could not decode image.", err)
-			return
-		}
 
 		if imgConfig.Width != imgConfig.Height {
-			fmt.Println("Image is not in 1:1 aspect ratio.")
-			return
+			handleErr(errors.New("Image is not 1:1 aspect ratio."))
 		}
+	} else {
+		handleErr(err)
 	}
 	
 	fmt.Printf("Input image actual size: %dx%d \n",imgConfig.Width, imgConfig.Height)
@@ -72,4 +67,9 @@ func RenderCanvas(imgPath string, ppi float64) {
 		filepath.Base(imgPath)
 
 	renderers.Write(newFileName, c)
+}
+
+func handleErr(err error) {
+	fmt.Println(err)
+	os.Exit(1)
 }
