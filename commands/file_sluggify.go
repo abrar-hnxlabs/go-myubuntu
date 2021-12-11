@@ -69,5 +69,7 @@ func removeConsecutive(input string) string {
 			result += string(v)
 		}
 	}
-	return strings.ToLower(result)
+	result = strings.ToLower(result)
+	result = strings.Trim(result, "_")
+	return result
 }
