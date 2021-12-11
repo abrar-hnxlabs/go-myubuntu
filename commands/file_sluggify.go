@@ -38,10 +38,14 @@ func SlugifyFiles(root string) {
 					newname = path.Join(current, slug + extension)
 				} 
 				
+				// fmt.Println(oldname, newname)
 				if oldname != newname {
-					newname = strings.ToLower(newname)
+					// newname = strings.ToLower(newname)
 					fmt.Println(oldname, newname)
-					os.Rename(oldname, newname)
+					err = os.Rename(oldname, newname)
+					if(err != nil) {
+						fmt.Println(err)
+					}
 				}
 				if v.IsDir() {
 					stack = append(stack, newname)
@@ -65,5 +69,5 @@ func removeConsecutive(input string) string {
 			result += string(v)
 		}
 	}
-	return result
+	return strings.ToLower(result)
 }
