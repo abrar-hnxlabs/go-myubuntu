@@ -38,9 +38,7 @@ func SlugifyFiles(root string) {
 					newname = path.Join(current, slug + extension)
 				} 
 				
-				// fmt.Println(oldname, newname)
 				if oldname != newname {
-					// newname = strings.ToLower(newname)
 					fmt.Println(oldname, newname)
 					err = os.Rename(oldname, newname)
 					if(err != nil) {
